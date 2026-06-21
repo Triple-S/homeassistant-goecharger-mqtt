@@ -1,4 +1,5 @@
 """MQTT component mixins and helpers."""
+
 from homeassistant import config_entries
 from homeassistant.helpers.entity import DeviceInfo, Entity
 from homeassistant.util import slugify
@@ -15,6 +16,8 @@ from .definitions import GoEChargerEntityDescription
 
 class GoEChargerEntity(Entity):
     """Common go-eCharger entity."""
+
+    _attr_has_entity_name = True
 
     def __init__(
         self,
@@ -39,3 +42,12 @@ class GoEChargerEntity(Entity):
             manufacturer=DEVICE_INFO_MANUFACTURER,
             model=DEVICE_INFO_MODEL,
         )
+
+        if description.translation_key is not None:
+            self._attr_translation_key = description.translation_key.lower()
+        elif description.attribute in ("", description.key):
+            self._attr_translation_key = description.key.lower()
+        else:
+            self._attr_translation_key = (
+                description.key.lower() + "_" + description.attribute
+            )
