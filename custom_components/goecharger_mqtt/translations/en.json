@@ -14,10 +14,15 @@
                 "description": "Do you want to setup {name}?"
             },
             "user": {
-                "description": "Please provide the serial number of your device",
+                "description": "Please provide the MQTT base topic of your device (e.g. go-eCharger/072246 or /go-eCharger/072246)",
                 "data": {
-                    "serial_number": "Serial number",
-                    "topic_prefix": "Base topic"
+                    "topic": "MQTT topic"
+                }
+            },
+            "reconfigure": {
+                "description": "Update the MQTT base topic for this device (e.g. after a firmware update changed the topic prefix). Current value: {current_topic}",
+                "data": {
+                    "topic": "MQTT topic"
                 }
             }
         }
