@@ -7,8 +7,8 @@ import logging
 from homeassistant.components import mqtt
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, ServiceCall, callback
-import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers import device_registry as dr
+import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import ConfigType
 import voluptuous as vol
 
@@ -45,7 +45,9 @@ SERVICE_SCHEMA_SET_CONFIG_KEY = vol.Schema(
 async def async_migrate_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Migrate config entry from v1 (topic_prefix + serial_number) to v2 (topic)."""
     if entry.version == 1:
-        topic_prefix = entry.data.get(CONF_TOPIC_PREFIX, DEFAULT_TOPIC_PREFIX).rstrip("/")
+        topic_prefix = entry.data.get(CONF_TOPIC_PREFIX, DEFAULT_TOPIC_PREFIX).rstrip(
+            "/"
+        )
         serial_number = entry.data[CONF_SERIAL_NUMBER]
         topic = f"{topic_prefix}/{serial_number}"
         hass.config_entries.async_update_entry(

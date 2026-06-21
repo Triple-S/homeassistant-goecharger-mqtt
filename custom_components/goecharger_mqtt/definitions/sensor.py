@@ -104,7 +104,6 @@ def extract_item_from_json_to_float(value, key) -> float:
     return float(json.loads(value)[str(key)])
 
 
-
 _CODE_STATES: dict[str, dict[int, str]] = {
     "car": {
         0: "unknown_error",
@@ -203,6 +202,7 @@ def to_code_slug(value, attribute) -> str:
         return _CODE_STATES[attribute].get(int(value), str(value))
     except (ValueError, KeyError):
         return str(value)
+
 
 SENSORS: tuple[GoEChargerSensorEntityDescription, ...] = (
     GoEChargerSensorEntityDescription(

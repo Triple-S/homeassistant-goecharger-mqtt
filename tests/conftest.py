@@ -1,4 +1,5 @@
 """pytest fixtures."""
+
 from unittest.mock import MagicMock
 
 from homeassistant import core as ha
@@ -11,7 +12,7 @@ import pytest
 def mock_component(hass, component):
     """Mock a component is setup."""
     if component in hass.config.components:
-        AssertionError(f"Integration {component} is already setup")
+        raise AssertionError(f"Integration {component} is already setup")
 
     hass.config.components.add(component)
 

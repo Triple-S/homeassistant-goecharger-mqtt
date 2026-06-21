@@ -153,11 +153,15 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     {
                         vol.Required(
                             CONF_TOPIC,
-                            default=reconfigure_entry.data.get(CONF_TOPIC, DEFAULT_TOPIC_PREFIX),
+                            default=reconfigure_entry.data.get(
+                                CONF_TOPIC, DEFAULT_TOPIC_PREFIX
+                            ),
                         ): cv.string,
                     }
                 ),
-                description_placeholders={"current_topic": reconfigure_entry.data.get(CONF_TOPIC, "")},
+                description_placeholders={
+                    "current_topic": reconfigure_entry.data.get(CONF_TOPIC, "")
+                },
             )
 
         self.hass.config_entries.async_update_entry(
