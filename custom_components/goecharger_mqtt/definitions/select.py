@@ -25,6 +25,37 @@ class GoEChargerSelectEntityDescription(
 
 SELECTS: tuple[GoEChargerSelectEntityDescription, ...] = (
     GoEChargerSelectEntityDescription(
+        key="bac",
+        name="Button allow current change",
+        legacy_options={
+            "0": "always_lock",
+            "1": "lock_when_car_connected",
+            "2": "lock_when_charging",
+            "3": "never_lock",
+        },
+        attribute="bac",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=True,
+        disabled=False,
+    ),
+    GoEChargerSelectEntityDescription(
+        key="sdp",
+        name="Button allow force change",
+        legacy_options={
+            "0": "always_lock",
+            "1": "lock_when_car_connected",
+            "2": "lock_when_charging",
+            "3": "never_lock",
+        },
+        attribute="sdp",
+        entity_category=EntityCategory.CONFIG,
+        device_class=None,
+        entity_registry_enabled_default=False,
+        disabled=True,
+        disabled_reason="Not exposed via MQTT in firmware 060.5",
+    ),
+    GoEChargerSelectEntityDescription(
         key="lmo",
         name="Logic mode",
         legacy_options={
