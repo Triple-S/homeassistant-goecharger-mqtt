@@ -10,9 +10,17 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers.selector import SelectSelector, SelectSelectorConfig
 import voluptuous as vol
 
-from .const import CONF_TOPIC, DEFAULT_TOPIC_PREFIX, DOMAIN
+from .const import (
+    CHARGING_POWER_11KW,
+    CHARGING_POWER_22KW,
+    CONF_CHARGING_POWER,
+    CONF_TOPIC,
+    DEFAULT_TOPIC_PREFIX,
+    DOMAIN,
+)
 
 try:
     # < HA 2022.8.0
@@ -25,9 +33,19 @@ _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_NAME = "go-eCharger"
 
+_CHARGING_POWER_SELECTOR = SelectSelector(
+    SelectSelectorConfig(
+        options=[
+            {"value": CHARGING_POWER_11KW, "label": "11 kW (max. 16 A)"},
+            {"value": CHARGING_POWER_22KW, "label": "22 kW (max. 32 A)"},
+        ]
+    )
+)
+
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required(CONF_TOPIC, default=DEFAULT_TOPIC_PREFIX): cv.string,
+        vol.Required(CONF_CHARGING_POWER, default=CHARGING_POWER_22KW): _CHARGING_POWER_SELECTOR,
     }
 )
 
@@ -64,7 +82,7 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> dict[str,
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for go-eCharger (MQTT)."""
 
-    VERSION = 2
+    VERSION = 3
 
     def __init__(self) -> None:
         """Initialize flow."""
@@ -157,6 +175,12 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                                 CONF_TOPIC, DEFAULT_TOPIC_PREFIX
                             ),
                         ): cv.string,
+                        vol.Required(
+                            CONF_CHARGING_POWER,
+                            default=reconfigure_entry.data.get(
+                                CONF_CHARGING_POWER, CHARGING_POWER_22KW
+                            ),
+                        ): _CHARGING_POWER_SELECTOR,
                     }
                 ),
                 description_placeholders={
@@ -166,7 +190,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         self.hass.config_entries.async_update_entry(
             reconfigure_entry,
-            data={CONF_TOPIC: user_input[CONF_TOPIC]},
+            data={
+                CONF_TOPIC: user_input[CONF_TOPIC],
+                CONF_CHARGING_POWER: user_input[CONF_CHARGING_POWER],
+            },
         )
         await self.hass.config_entries.async_reload(reconfigure_entry.entry_id)
         return self.async_abort(reason="reconfigure_successful")
