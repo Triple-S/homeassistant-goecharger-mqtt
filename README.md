@@ -285,6 +285,7 @@ This manual method achieves the same result as the HACS installation but require
 | `acp` | Allow charge pause | `config` | :heavy_check_mark: | :white_large_square: | [^1] |
 | `esk` | Energy set | `config` | :white_large_square: | :white_large_square: | App only |
 | `fup` | Charge with PV surplus | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `fzf` | Zero feedin | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `su` | Simulate unplugging | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `hws` | HTTP STA reachable | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `hsa` | HTTP STA authentication | `config` | :white_large_square: | :white_large_square: | [^1] |
@@ -306,6 +307,11 @@ This manual method achieves the same result as the HACS installation but require
 | `dwo` | Charging energy limit | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 | `lop` | Load balancing priority | `config` | :white_large_square: | :white_large_square: | [^1] |
 | `pgt` | Grid target | `config` | :heavy_check_mark: | :heavy_check_mark: | [^2] |
+| `fst` | PV surplus starting power | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `sh` | PV surplus stop hysteresis | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `psh` | PV surplus phase switch hysteresis | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `po` | PV surplus power offset | `config` | :heavy_check_mark: | :heavy_check_mark: | |
+| `zfo` | Zero feedin offset | `config` | :heavy_check_mark: | :heavy_check_mark: | |
 
 ### Select entities
 
