@@ -356,14 +356,13 @@ trigger:
     seconds: /5
 condition: []
 action:
-  - service: mqtt.publish
-    data:
-      qos: "0"
-      # Change to your charger ID here
-      topic: go-eCharger/999999/ids/set
+  - action: goecharger_mqtt.update_grid_power
+      # Change to your device ID here
+      device_id: !input wallbox_id
       # Please provide your own entities here, as described above
-      payload: {{'{"pGrid": '}}{{states('sensor.meter_active_power_raw')}}{{', "pPv":'}}{{states('sensor.total_dc_power')}}{{', "pAkku":0}'}}
-      retain: false
+      power_grid: "{{ states('sensor.meter_active_power') | float }}"
+      power_pv: "{{ states('sensor.total_dc_power') | float }}"
+      power_battery: "{{ states('sensor.battery_power') | float }}"
 ```
 
 ## Platform services
